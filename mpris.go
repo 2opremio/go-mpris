@@ -163,7 +163,7 @@ func (i *player) SetVolume(volume float64) {
 func (i *player) GetPosition() int64 {
 	return getProperty(i.obj, playerInterface, "Position").Value().(int64)
 }
-func (i *player) SetPosition(position float64) {
+func (i *player) SetPositionProperty(position float64) {
 	setProperty(i.obj, playerInterface, "Position", position)
 }
 
