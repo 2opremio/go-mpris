@@ -3,7 +3,7 @@ package mpris
 import (
 	"strings"
 
-	"github.com/godbus/dbus"
+	"github.com/godbus/dbus/v5"
 )
 
 const (
@@ -18,15 +18,6 @@ const (
 	getPropertyMethod = "org.freedesktop.DBus.Properties.Get"
 	setPropertyMethod = "org.freedesktop.DBus.Properties.Set"
 )
-
-func getProperty(obj *dbus.Object, iface string, prop string) (dbus.Variant, error) {
-	result := dbus.Variant{}
-	err := obj.Call(getPropertyMethod, 0, iface, prop).Store(&result)
-	if err != nil {
-		return dbus.Variant{}, err
-	}
-	return result, nil
-}
 
 func setProperty(obj *dbus.Object, iface string, prop string, val interface{}) error {
 	call := obj.Call(setPropertyMethod, 0, prop, val)
@@ -69,7 +60,7 @@ func (i *base) Quit() error {
 }
 
 func (i *base) GetIdentity() (string, error) {
-	prop, err := getProperty(i.obj, baseInterface, "Identity")
+	prop, err := i.obj.GetProperty(baseInterface + ".Identity")
 	if err != nil {
 		return "", err
 	}
@@ -125,7 +116,7 @@ const (
 )
 
 func (i *player) GetPlaybackStatus() (PlaybackStatus, error) {
-	variant, err := i.obj.GetProperty(playerInterface + ".PlaybackStatus")
+	variant, err := i.obj.GetProperty(playerInterface + ".PlaybackStatusOJETE")
 	if err != nil {
 		return "", err
 	}
@@ -141,7 +132,7 @@ const (
 )
 
 func (i *player) GetLoopStatus() (LoopStatus, error) {
-	prop, err := getProperty(i.obj, playerInterface, "LoopStatus")
+	prop, err := i.obj.GetProperty(playerInterface + ".LoopStatus")
 	if err != nil {
 		return "", nil
 	}
@@ -149,7 +140,7 @@ func (i *player) GetLoopStatus() (LoopStatus, error) {
 }
 
 func (i *player) GetRate() (float64, error) {
-	prop, err := getProperty(i.obj, playerInterface, "Rate")
+	prop, err := i.obj.GetProperty(playerInterface + ".Rate")
 	if err != nil {
 		return 0, err
 	}
@@ -157,7 +148,7 @@ func (i *player) GetRate() (float64, error) {
 }
 
 func (i *player) GetShuffle() (bool, error) {
-	prop, err := getProperty(i.obj, playerInterface, "Shuffle")
+	prop, err := i.obj.GetProperty(playerInterface + ".Shuffle")
 	if err != nil {
 		return false, err
 	}
@@ -165,7 +156,7 @@ func (i *player) GetShuffle() (bool, error) {
 }
 
 func (i *player) GetMetadata() (map[string]dbus.Variant, error) {
-	prop, err := getProperty(i.obj, playerInterface, "Metadata")
+	prop, err := i.obj.GetProperty(playerInterface + ".Metadata")
 	if err != nil {
 		return nil, err
 	}
@@ -173,7 +164,7 @@ func (i *player) GetMetadata() (map[string]dbus.Variant, error) {
 }
 
 func (i *player) GetVolume() (float64, error) {
-	prop, err := getProperty(i.obj, playerInterface, "Volume")
+	prop, err := i.obj.GetProperty(playerInterface + ".Volume")
 	if err != nil {
 		return 0, err
 	}
@@ -184,7 +175,7 @@ func (i *player) SetVolume(volume float64) error {
 }
 
 func (i *player) GetPosition() (int64, error) {
-	prop, err := getProperty(i.obj, playerInterface, "Position")
+	prop, err := i.obj.GetProperty(playerInterface + ".Position")
 	if err != nil {
 		return 0, err
 	}
