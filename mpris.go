@@ -117,7 +117,7 @@ const (
 )
 
 func (i *player) GetPlaybackStatus() (PlaybackStatus, error) {
-	variant, err := i.obj.GetProperty(playerInterface + ".PlaybackStatusOJETE")
+	variant, err := i.obj.GetProperty(playerInterface + ".PlaybackStatus")
 	if err != nil {
 		return "", err
 	}
