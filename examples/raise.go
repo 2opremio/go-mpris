@@ -2,8 +2,9 @@ package main
 
 import (
 	"log"
+
+	"github.com/2opremio/go-mpris"
 	"github.com/godbus/dbus"
-	"github.com/emersion/go-mpris"
 )
 
 func main() {
@@ -25,7 +26,8 @@ func main() {
 
 	player := mpris.New(conn, name)
 
-	log.Println("Media player identity:", player.GetIdentity())
+	_, id := player.GetIdentity()
+	log.Println("Media player identity:", id)
 
 	player.Raise()
 }
