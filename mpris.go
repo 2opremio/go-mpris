@@ -124,12 +124,12 @@ const (
 	PlaybackStopped                = "Stopped"
 )
 
-func (i *player) GetPlaybackStatus() PlaybackStatus {
+func (i *player) GetPlaybackStatus() (PlaybackStatus, error) {
 	variant, err := i.obj.GetProperty(playerInterface + ".PlaybackStatus")
 	if err != nil {
-		return ""
+		return "", err
 	}
-	return PlaybackStatus(variant.String())
+	return PlaybackStatus(variant.String()), nil
 }
 
 type LoopStatus string
