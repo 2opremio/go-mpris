@@ -4,7 +4,7 @@ import (
 	"log"
 
 	"github.com/2opremio/go-mpris"
-	"github.com/godbus/dbus"
+	"github.com/godbus/dbus/v5"
 )
 
 func main() {

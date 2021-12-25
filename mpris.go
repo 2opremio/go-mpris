@@ -32,9 +32,10 @@ func List(conn *dbus.Conn) ([]string, error) {
 	}
 
 	var mprisNames []string
+	prefix := baseInterface + "."
 	for _, name := range names {
-		if strings.HasPrefix(name, baseInterface) {
-			mprisNames = append(mprisNames, name)
+		if strings.HasPrefix(name, prefix) {
+			mprisNames = append(mprisNames, strings.TrimPrefix(name, prefix))
 		}
 	}
 	return mprisNames, nil
@@ -186,7 +187,7 @@ func (i *player) SetPositionProperty(position float64) error {
 }
 
 func New(conn *dbus.Conn, name string) *Player {
-	obj := conn.Object(name, dbusObjectPath).(*dbus.Object)
+	obj := conn.Object(baseInterface+"."+name, dbusObjectPath).(*dbus.Object)
 
 	return &Player{
 		&base{obj},
