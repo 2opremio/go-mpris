@@ -164,7 +164,7 @@ func (i *player) GetVolume() (float64, error) {
 	return prop.Value().(float64), err
 }
 func (i *player) SetVolume(volume float64) error {
-	return i.obj.SetProperty(playerInterface+".Volume", volume)
+	return i.obj.SetProperty(playerInterface+".Volume", dbus.MakeVariant(volume))
 }
 
 func (i *player) GetPosition() (int64, error) {
