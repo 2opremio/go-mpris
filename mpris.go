@@ -182,9 +182,6 @@ func (i *player) GetPosition() (int64, error) {
 	}
 	return prop.Value().(int64), nil
 }
-func (i *player) SetPositionProperty(position float64) error {
-	return setProperty(i.obj, playerInterface, "Position", position)
-}
 
 func New(conn *dbus.Conn, name string) *Player {
 	obj := conn.Object(baseInterface+"."+name, dbusObjectPath).(*dbus.Object)
