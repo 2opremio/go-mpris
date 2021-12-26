@@ -14,15 +14,7 @@ const (
 	playerInterface    = "org.mpris.MediaPlayer2.Player"
 	trackListInterface = "org.mpris.MediaPlayer2.TrackList"
 	playlistsInterface = "org.mpris.MediaPlayer2.Playlists"
-
-	getPropertyMethod = "org.freedesktop.DBus.Properties.Get"
-	setPropertyMethod = "org.freedesktop.DBus.Properties.Set"
 )
-
-func setProperty(obj *dbus.Object, iface string, prop string, val interface{}) error {
-	call := obj.Call(setPropertyMethod, 0, prop, val)
-	return call.Err
-}
 
 func List(conn *dbus.Conn) ([]string, error) {
 	var names []string
@@ -72,40 +64,40 @@ type player struct {
 	obj *dbus.Object
 }
 
-func (i *player) Next() {
-	i.obj.Call(playerInterface+".Next", 0)
+func (i *player) Next() error {
+	return i.obj.Call(playerInterface+".Next", 0).Err
 }
 
-func (i *player) Previous() {
-	i.obj.Call(playerInterface+".Previous", 0)
+func (i *player) Previous() error {
+	return i.obj.Call(playerInterface+".Previous", 0).Err
 }
 
-func (i *player) Pause() {
-	i.obj.Call(playerInterface+".Pause", 0)
+func (i *player) Pause() error {
+	return i.obj.Call(playerInterface+".Pause", 0).Err
 }
 
-func (i *player) PlayPause() {
-	i.obj.Call(playerInterface+".PlayPause", 0)
+func (i *player) PlayPause() error {
+	return i.obj.Call(playerInterface+".PlayPause", 0).Err
 }
 
-func (i *player) Stop() {
-	i.obj.Call(playerInterface+".Stop", 0)
+func (i *player) Stop() error {
+	return i.obj.Call(playerInterface+".Stop", 0).Err
 }
 
-func (i *player) Play() {
-	i.obj.Call(playerInterface+".Play", 0)
+func (i *player) Play() error {
+	return i.obj.Call(playerInterface+".Play", 0).Err
 }
 
-func (i *player) Seek(offset int64) {
-	i.obj.Call(playerInterface+".Seek", 0, offset)
+func (i *player) Seek(offset int64) error {
+	return i.obj.Call(playerInterface+".Seek", 0, offset).Err
 }
 
-func (i *player) SetPosition(trackId *dbus.ObjectPath, position int64) {
-	i.obj.Call(playerInterface+".SetPosition", 0, trackId, position)
+func (i *player) SetPosition(trackId *dbus.ObjectPath, position int64) error {
+	return i.obj.Call(playerInterface+".SetPosition", 0, trackId, position).Err
 }
 
-func (i *player) OpenUri(uri string) {
-	i.obj.Call(playerInterface+".OpenUri", 0, uri)
+func (i *player) OpenUri(uri string) error {
+	return i.obj.Call(playerInterface+".OpenUri", 0, uri).Err
 }
 
 type PlaybackStatus string
@@ -172,7 +164,7 @@ func (i *player) GetVolume() (float64, error) {
 	return prop.Value().(float64), err
 }
 func (i *player) SetVolume(volume float64) error {
-	return setProperty(i.obj, playerInterface, "Volume", volume)
+	return i.obj.SetProperty(playerInterface+".Volume", volume)
 }
 
 func (i *player) GetPosition() (int64, error) {
