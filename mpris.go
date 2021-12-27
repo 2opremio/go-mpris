@@ -57,7 +57,7 @@ func (i *base) GetIdentity() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return prop.String(), nil
+	return prop.Value().(string), nil
 }
 
 type player struct {
@@ -121,7 +121,7 @@ func (i *player) GetPlaybackStatus() (PlaybackStatus, error) {
 	if err != nil {
 		return "", err
 	}
-	return PlaybackStatus(variant.String()), nil
+	return PlaybackStatus(variant.Value().(string)), nil
 }
 
 type LoopStatus string
@@ -137,7 +137,7 @@ func (i *player) GetLoopStatus() (LoopStatus, error) {
 	if err != nil {
 		return "", nil
 	}
-	return LoopStatus(prop.String()), nil
+	return LoopStatus(prop.Value().(string)), nil
 }
 
 func (i *player) GetRate() (float64, error) {
