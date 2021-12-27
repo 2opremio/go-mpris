@@ -100,6 +100,14 @@ func (i *player) OpenUri(uri string) error {
 	return i.obj.Call(playerInterface+".OpenUri", 0, uri).Err
 }
 
+func (i *player) VolumeUp() error {
+	return i.obj.Call(playerInterface+".VolumeUp", 0).Err
+}
+
+func (i *player) VolumeDown() error {
+	return i.obj.Call(playerInterface+".VolumeDown", 0).Err
+}
+
 type PlaybackStatus string
 
 const (
