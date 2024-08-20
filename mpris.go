@@ -1,6 +1,7 @@
 package mpris
 
 import (
+	"context"
 	"strings"
 
 	"github.com/godbus/dbus/v5"
@@ -16,9 +17,9 @@ const (
 	playlistsInterface = "org.mpris.MediaPlayer2.Playlists"
 )
 
-func List(conn *dbus.Conn) ([]string, error) {
+func List(ctx context.Context, conn *dbus.Conn) ([]string, error) {
 	var names []string
-	err := conn.BusObject().Call("org.freedesktop.DBus.ListNames", 0).Store(&names)
+	err := conn.BusObject().CallWithContext(ctx, "org.freedesktop.DBus.ListNames", 0).Store(&names)
 	if err != nil {
 		return nil, err
 	}
@@ -64,48 +65,48 @@ type player struct {
 	obj *dbus.Object
 }
 
-func (i *player) Next() error {
-	return i.obj.Call(playerInterface+".Next", 0).Err
+func (i *player) Next(ctx context.Context) error {
+	return i.obj.CallWithContext(ctx, playerInterface+".Next", 0).Err
 }
 
-func (i *player) Previous() error {
-	return i.obj.Call(playerInterface+".Previous", 0).Err
+func (i *player) Previous(ctx context.Context) error {
+	return i.obj.CallWithContext(ctx, playerInterface+".Previous", 0).Err
 }
 
-func (i *player) Pause() error {
-	return i.obj.Call(playerInterface+".Pause", 0).Err
+func (i *player) Pause(ctx context.Context) error {
+	return i.obj.CallWithContext(ctx, playerInterface+".Pause", 0).Err
 }
 
-func (i *player) PlayPause() error {
-	return i.obj.Call(playerInterface+".PlayPause", 0).Err
+func (i *player) PlayPause(ctx context.Context) error {
+	return i.obj.CallWithContext(ctx, playerInterface+".PlayPause", 0).Err
 }
 
-func (i *player) Stop() error {
-	return i.obj.Call(playerInterface+".Stop", 0).Err
+func (i *player) Stop(ctx context.Context) error {
+	return i.obj.CallWithContext(ctx, playerInterface+".Stop", 0).Err
 }
 
-func (i *player) Play() error {
-	return i.obj.Call(playerInterface+".Play", 0).Err
+func (i *player) Play(ctx context.Context) error {
+	return i.obj.CallWithContext(ctx, playerInterface+".Play", 0).Err
 }
 
-func (i *player) Seek(offset int64) error {
-	return i.obj.Call(playerInterface+".Seek", 0, offset).Err
+func (i *player) Seek(ctx context.Context, offset int64) error {
+	return i.obj.CallWithContext(ctx, playerInterface+".Seek", 0, offset).Err
 }
 
 func (i *player) SetPosition(trackId *dbus.ObjectPath, position int64) error {
 	return i.obj.Call(playerInterface+".SetPosition", 0, trackId, position).Err
 }
 
-func (i *player) OpenUri(uri string) error {
-	return i.obj.Call(playerInterface+".OpenUri", 0, uri).Err
+func (i *player) OpenUri(ctx context.Context, uri string) error {
+	return i.obj.CallWithContext(ctx, playerInterface+".OpenUri", 0, uri).Err
 }
 
-func (i *player) VolumeUp() error {
-	return i.obj.Call(playerInterface+".VolumeUp", 0).Err
+func (i *player) VolumeUp(ctx context.Context) error {
+	return i.obj.CallWithContext(ctx, playerInterface+".VolumeUp", 0).Err
 }
 
-func (i *player) VolumeDown() error {
-	return i.obj.Call(playerInterface+".VolumeDown", 0).Err
+func (i *player) VolumeDown(ctx context.Context) error {
+	return i.obj.CallWithContext(ctx, playerInterface+".VolumeDown", 0).Err
 }
 
 type PlaybackStatus string

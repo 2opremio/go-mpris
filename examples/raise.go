@@ -1,10 +1,12 @@
 package main
 
 import (
+	"context"
 	"log"
 
-	"github.com/2opremio/go-mpris"
 	"github.com/godbus/dbus/v5"
+
+	"github.com/2opremio/go-mpris"
 )
 
 func main() {
@@ -13,7 +15,7 @@ func main() {
 		panic(err)
 	}
 
-	names, err := mpris.List(conn)
+	names, err := mpris.List(context.Background(), conn)
 	if err != nil {
 		panic(err)
 	}
